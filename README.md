@@ -1,6 +1,6 @@
 # xianyun
 
-> My doozie Nuxt.js project
+> My doozie Nuxt.js project范德萨发胜多负少的Build Setup
 
 ## Build Setup
 
