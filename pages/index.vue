@@ -7,8 +7,9 @@
         <el-carousel 
         :interval="5000" 
         arrow="always">
+<!-- //shandksahdfsjak -->
 
-            <el-carousel-item 
+            <el-carousel-item      
             v-for="(item, index) in banners" 
             :key="index">
                 <div class="banner-image" 
