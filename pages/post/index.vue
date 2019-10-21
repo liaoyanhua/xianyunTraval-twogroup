@@ -49,7 +49,17 @@
           </div>
         </div>
         <div class="hot-post">
-          <PostLizi :posts="postList"/>
+          <PostLizi v-for="(item,index) in dataList" :item="item" :key="index" />
+          <el-pagination
+            style="padding:10px 0;"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pageIndex"
+            :page-sizes="[2, 4, 6, 8]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          ></el-pagination>
         </div>
       </div>
     </div>
@@ -57,18 +67,27 @@
 </template>
 
 <script>
-import PostLizi from '@/components/post/PostLizi'
+import PostLizi from "@/components/post/PostLizi";
 export default {
-  components:{
+  components: {
     PostLizi
   },
   data() {
     return {
+      total: 0, //定义一个总条数
+      pageSize:2,//定义一个每页多少条
+      pageIndex:2,//声明一个当前页
       isShow: false,
       cityType: [], //定义一个城市主体类型
       typeSeen: [], //定义一个城市类型景点列表数据
-      postList:[]   //获取所有文章列表
+      postList: [] //获取所有文章列表
     };
+  },
+  computed:{
+    dataList(){//重新定义一个变量监听分页后数据的变化
+      let arr =this.postList.slice((this.pageIndex-1)*this.pageSize,this.pageIndex*this.pageSize);
+      return arr;
+    }
   },
   mounted() {
     this.$axios({
@@ -77,14 +96,21 @@ export default {
       this.cityType = res.data.data;
     });
     this.$axios({
-      url:'/posts'
-    }).then(res=>{
-      this.postList=res.data.data;
-      console.log(res);
-    })
+      url: "/posts"
+    }).then(res => {
+      this.postList = res.data.data;
+      this.total = res.data.total;
+    });
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageSize=val;
+    },
+    handleCurrentChange(val) {
+      this.pageIndex=val;
+    },
     handleCityType(type) {
+      //展示城市列表类型
       this.isShow = true;
       this.cityType.forEach((v, i) => {
         if (v.type === type) {
@@ -187,7 +213,7 @@ export default {
         border: 3px solid #ffa500;
         width: 100%;
         padding: 10px 20px;
-        box-sizing: border-box; 
+        box-sizing: border-box;
       }
       .icon {
         position: absolute;
@@ -212,7 +238,7 @@ export default {
       & > .title {
         height: 45px;
         padding: 10px 0;
-        padding-bottom:0;
+        padding-bottom: 0;
         border-bottom: 1px solid #ddd;
         .title-left {
           height: 100%;
@@ -221,9 +247,9 @@ export default {
           color: #ffa500;
           border-bottom: 2px solid #ffa500;
         }
-      // .titlt-right{
-      //   width:100%;
-      // }
+        // .titlt-right{
+        //   width:100%;
+        // }
       }
     }
   }

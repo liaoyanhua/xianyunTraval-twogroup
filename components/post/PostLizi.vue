@@ -1,6 +1,6 @@
 <template>
   <div class="post-detail">
-    <div class="three-pic" :key="index" v-if="item.images.length>=3" v-for="(item,index) in posts">
+    <div class="three-pic"  v-if="item.images.length>=3">
       <a :href="`/post/detail?id=${item.city.id}`">
         <div class="title">{{item.title}}</div>
         <p>{{item.summary}}</p>
@@ -14,7 +14,7 @@
         <span>
           <i class="el-icon-location-outline"></i>{{item.cityName}} by
         </span>
-        <a href="#" class>
+        <a href="/user/personal" class>
           <img :src="$axios.defaults.baseURL+item.account.defaultAvatar" alt /> {{item.account.nickname}}
         </a>
         <span>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="one-pic clearfix" :key="index" v-if="item.images.length<3" v-for="(item,index) in posts">
+    <div class="one-pic clearfix" v-if="item.images.length<3">
       <a href="#" class="picture fl">
         <img :src="item.images[0]" alt />
       </a>
@@ -37,7 +37,7 @@
           <span>
             <i class="el-icon-location-outline"></i>{{item.cityName}} by
           </span>
-          <a href="#" class>
+          <a href="/user/personal">
             <img :src="$axios.defaults.baseURL+item.account.defaultAvatar" alt /> {{item.account.nickname}}
           </a>
           <span>
@@ -53,9 +53,9 @@
 <script>
 export default {
   props: {
-    posts: {
-      type: Array,
-      default: []
+    item: {
+      type: Object,
+      default: {}
     }
   }
 };
