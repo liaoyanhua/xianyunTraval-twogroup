@@ -35,7 +35,9 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-
+html,body{
+  height:100%;
+}
 *{
   margin:0; 
   padding:0;
@@ -47,10 +49,24 @@ a{
   text-decoration:none;
   color:inherit;
 }
-a:hover{
-
-}
 em,i{
   font-style: normal;
 }
+  .clearfix:after {
+    content:'.';
+    display:block;
+    height: 0;
+    line-height: 0;
+    visibility:hidden;
+    clear:both;
+  }
+  .clearfix {
+    *Zoom: 1;
+  }
+  .fl{
+    float:left;
+  }
+  .fr{
+    float:right;
+  }
 </style>
