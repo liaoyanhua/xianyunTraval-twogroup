@@ -1,114 +1,98 @@
 <template>
-  <div style="padding:50px;">
-    <h3>高德地图</h3>
-
-    <el-row style="margin-bottom:20px;">
-      <el-col :span="5">
-        <el-input placeholder="出发地点" v-model="start"></el-input>
+  <div class="hotel">
+    <el-row type="flex" class="hotel_content">
+      <!-- 面包屑 -->
+      <el-row class="Hotel_crumbs">
+        <el-breadcrumb separator>
+          <el-breadcrumb-item style="width:54px">
+            酒店
+            <i class="el-icon-arrow-right" style="margin-left:5px"></i>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>南京市酒店预定</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-row>
+      <!-- 筛选查询酒店 -->
+      <HotelFiltrate />
+      <el-col :span="14" class="Hotel_strategy">
+        <!-- 区域详情 -->
+        <HotelStrategy />
       </el-col>
-      <el-col :span="5">
-        <el-input placeholder="到达地点" v-model="end"></el-input>
+      <!-- 地图 -->
+      <el-col :span="10" class="Hotel_map">
+        <hotelMap />
       </el-col>
-      <el-button :span="2" @click="handleSearch">搜索</el-button>
+      <!-- 酒店分类筛选 -->
+      <Hotelclassify />
+      <!-- 酒店列表页面 -->
+      <HotelList :data="HotelList" />
+      <!-- 分页器 -->
+      
     </el-row>
-
-    <!-- 地图的容器 -->
-    <div id="container"></div> 
-    <div id="panel"></div>
   </div>
 </template>
-
 <script>
+//引入插件
+import HotelFiltrate from "@/components/hotel/HotelFiltrate";
+import HotelStrategy from "@/components/hotel/HotelStrategy";
+import hotelMap from "@/components/hotel/hotelMap";
+import Hotelclassify from "@/components/hotel/Hotelclassify";
+import HotelList from "@/components/hotel/HotelList";
 export default {
-  data(){
+  data() {
     return {
-      start: "",
-      end: ""
-    }
-  },
-
-  methods: {
-    handleSearch(){
-      this.map();
-    },
-    map(){
-      
-        // 地图对象
-        var map = new AMap.Map('container', {
-          zoom:11,//级别
-          //center: [113.3245904, 23.1066805]//中心点坐标
-        });
-
-        // 点标记
-        // var marker1 = new AMap.Marker({
-        //   content: `<div style="width:20px; height:20px; border-radius: 50px; background:red; color:#fff; text-align:center; line-height: 20px;">99</div>`,
-        //   position:[113.3245904, 23.1066805]//位置
-        // })
-        // var marker2 = new AMap.Marker({
-        //   position:[113.3345904, 23.1266805]//位置
-        // })
-        // var markerList = [marker1, marker2];
-        // map.add(markerList);//添加到地图
-
-        // 异步加载插件
-        AMap.plugin(['AMap.ToolBar','AMap.Driving'],() => {//异步加载插件
-          var toolbar = new AMap.ToolBar();
-          map.addControl(toolbar);
-
-          // 驾车路线的插件
-          var driving = new AMap.Driving({
-            map: map,
-            panel: "panel",
-            policy: AMap.DrivingPolicy.LEAST_TIME
-          });//驾车路线规划
-
-          var points = [
-            { keyword: this.start },
-            { keyword: this.end }
-          ]
-
-          driving.search(points, function (status, result) { 
-          })
-        });
+      HotelList: [],
+      hotel: {
+        id: 1,
+        price_in: 99,
+        scenic: 1,
+        name_contains: "",
+        hotellevel: 1,
+        hoteltype: 1,
+        hotelbrand: 1,
+        hotelasset: 1,
+        person: 2
       }
+    };
   },
-
-  mounted(){
-
-    // 整个页面加载完毕之后执行
-    window.onLoad  = () => {
-      this.map();
+  components: {
+    HotelFiltrate,
+    HotelStrategy,
+    hotelMap,
+    Hotelclassify,
+    HotelList
+  },
+  mounted() {
+    this.getHotelList();
+  },
+  methods: {
+    //获取酒店列表数据
+    getHotelList() {
+      const { id, city, enterTime, leftTime, limit, start } = this.hotel;
+      this.$axios({
+        url: "/hotels",
+        params: {
+          city,
+          enterTime,
+          leftTime,
+          _limit: limit,
+          _start: start
+        }
+      }).then(res => {
+        this.HotelList = res.data.data;
+      });
     }
-
-    // 地图的连接
-    var url = "https://webapi.amap.com/maps?v=1.4.15&key=e3c936027dd8c0a7d48d60c4db2e827e&callback=onLoad";
-    var jsapi = document.createElement('script');
-    jsapi.charset = 'utf-8';
-    jsapi.src = url;
-    document.head.appendChild(jsapi);
   }
-}
+};
 </script>
-
-<style scoped>
-#container {width:600px; height: 500px; }  
-#panel {
-  position: fixed;
-  background-color: white;
-  max-height: 90%;
-  overflow-y: auto;
-  top: 10px;
-  right: 10px;
-  width: 280px;
-}
-#panel .amap-call {
-  background-color: #009cf9;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-#panel .amap-lib-driving {
-border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  overflow: hidden;
+<style lang="less" scoped>
+.hotel {
+  width: 1000px;
+  margin: 0 auto;
+  .hotel_content {
+    flex-wrap: wrap;
+  }
+  .Hotel_crumbs {
+    padding: 20px 0;
+  }
 }
 </style>
