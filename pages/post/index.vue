@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="hot-post">
-          <PostLizi/>
+          <PostLizi :posts="postList"/>
         </div>
       </div>
     </div>
@@ -66,7 +66,8 @@ export default {
     return {
       isShow: false,
       cityType: [], //定义一个城市主体类型
-      typeSeen: [] //定义一个城市类型景点列表数据
+      typeSeen: [], //定义一个城市类型景点列表数据
+      postList:[]   //获取所有文章列表
     };
   },
   mounted() {
@@ -75,6 +76,12 @@ export default {
     }).then(res => {
       this.cityType = res.data.data;
     });
+    this.$axios({
+      url:'/posts'
+    }).then(res=>{
+      this.postList=res.data.data;
+      console.log(res);
+    })
   },
   methods: {
     handleCityType(type) {

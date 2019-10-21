@@ -1,21 +1,173 @@
 <template>
   <div class="post-detail">
-      <div>
-         <a href="#">塞班贵？一定是你的打开方式不对！6000块玩转塞班</a>
-          <p>大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略，带你6000块花式玩转塞班。图：塞班岛。 by第5季旅游一、怎样用6000块玩转塞班？大多数出境游客人不做预算或最</p>
-        <div src="imgs">
-          
+    <div class="three-pic" :key="index" v-if="item.images.length>=3" v-for="(item,index) in posts">
+      <a :href="`/post/detail?id=${item.city.id}`">
+        <div class="title">{{item.title}}</div>
+        <p>{{item.summary}}</p>
+        <div class="imgs clearfix">
+          <img :src="item.images[0]" />
+          <img :src="item.images[1]" alt srcset />
+          <img :src="item.images[2]" alt srcset />
+        </div>
+      </a>
+      <div class="foots">
+        <span>
+          <i class="el-icon-location-outline"></i>{{item.cityName}} by
+        </span>
+        <a href="#" class>
+          <img :src="$axios.defaults.baseURL+item.account.defaultAvatar" alt /> {{item.account.nickname}}
+        </a>
+        <span>
+          <i class="el-icon-view"></i> {{item.watch}}
+        </span>
+        <span>{{item.like?item.like:0}} 赞</span>
+      </div>
+    </div>
+
+    <div class="one-pic clearfix" :key="index" v-if="item.images.length<3" v-for="(item,index) in posts">
+      <a href="#" class="picture fl">
+        <img :src="item.images[0]" alt />
+      </a>
+      <div class="content fr">
+        <a href="#">
+          <div class="title">{{item.title}}</div>
+          <p>{{item.summary}}</p>
+        </a>
+        <div class="foots">
+          <span>
+            <i class="el-icon-location-outline"></i>{{item.cityName}} by
+          </span>
+          <a href="#" class>
+            <img :src="$axios.defaults.baseURL+item.account.defaultAvatar" alt /> {{item.account.nickname}}
+          </a>
+          <span>
+            <i class="el-icon-view"></i> {{item.watch}}
+          </span>
+          <span>{{item.like?item.like:0}} 赞</span>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-
-}
+  props: {
+    posts: {
+      type: Array,
+      default: []
+    }
+  }
+};
 </script>
 
-<style>
-
+<style scoped lang="less">
+.post-detail {
+  .three-pic {
+    & > a {
+      display: block;
+      font-size: 18px;
+      padding-top: 15px;
+    }
+    .title:hover {
+      color: #ffa500;
+    }
+    p {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      color: #666;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .imgs {
+      margin-top: 15px;
+      height:150px;
+      img {
+        width: 200px;
+        height:150px;
+        float:left;
+        object-fit: cover;
+        margin-right: 6px;
+      }
+    }
+    .foots {
+      margin-top: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+      color: #666;
+      a {
+        color: #ffa500;
+        margin: 0 10px;
+        img {
+          display: inline-block;
+          width: 3%;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+      }
+      span:nth-last-of-type(1) {
+        float: right;
+        color: #ffa500;
+        font-size: 18px;
+      }
+    }
+  }
+  .one-pic {
+    padding-top:10px;
+    border-bottom: 1px solid #eee;
+    .picture {
+      display: block;
+      width: 30%;
+      margin-right: 10px;
+      img {
+        width: 200px;
+        height:150px;
+        object-fit: cover;
+      }
+    }
+    .content {
+      width: 67%;
+      a {
+        .title {
+          font-size: 18px;
+          &:hover {
+            color: #ffa500;
+          }
+        }
+        p {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+          color: #666;
+          font-size: 14px;
+          margin: 15px 0;
+        }
+      }
+      .foots {
+        padding-bottom: 20px;
+        font-size: 14px;
+        color: #666;
+        a {
+          color: #ffa500;
+          margin: 0 10px;
+          img {
+            display: inline-block;
+            width: 3%;
+            border-radius: 50%;
+            vertical-align: middle;
+          }
+        }
+        span:nth-last-of-type(1) {
+          float: right;
+          color: #ffa500;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
 </style>
