@@ -63,13 +63,6 @@ export default {
 				{ title: "酒店", placeholder: "请输入城市搜索酒店" },
 				{ title: "机票", placeholder: "" }
 			],
-
-			// options2: {
-			// 	"攻略": "搜索城市",
-			// 	"酒店": "请输入城市搜索酒店",
-			// 	"机票": ""
-			// },
-
 			// tab栏的索引
 			current: 0
 		}
