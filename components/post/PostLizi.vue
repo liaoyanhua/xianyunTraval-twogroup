@@ -117,6 +117,8 @@ export default {
   }
   .one-pic {
     padding-top:10px;
+    height:180px;
+    box-sizing: border-box;
     border-bottom: 1px solid #eee;
     .picture {
       display: block;

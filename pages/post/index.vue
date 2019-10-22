@@ -14,15 +14,14 @@
           </div>
         </div>
         <div class="city-introduction" v-if="isShow">
-          <div v-for="(item,index) in typeSeen" :key="index">
+          <div v-for="(item,index) in typeSeen" @click="handleCitySelect(item.city)" :key="index">
             <em>{{index+1}}</em>
-            <a :href="`/post?city=${item.city}`">
-              <span>{{item.city}}</span>
-              {{item.desc}}
-            </a>
+            <span>{{item.city}}</span>
+            <span class="desc">{{item.desc}}</span>
           </div>
         </div>
       </div>
+      <!-- <a :href="`/post?city=${item.city}`"> -->
       <div class="city-common">
         <div class="title">推荐城市</div>
         <a href="#">
@@ -32,24 +31,23 @@
     </div>
     <div class="post-right">
       <div class="search">
-        <input type="text" placeholder="请输入想去的地方，比如:'广州'" />
-        <span class="icon el-icon-search"></span>
+        <input type="text" :placeholder="`${city?'':'请输入想去的地方，比如:`广州`'}`" v-model="city" @input="getCity"/>
+        <span class="icon el-icon-search"  @click="getCity"></span>
         <div>
           推荐：
-          <span>广州</span>
-          <span>上海</span>
-          <span>北京</span>
+          <span :key="index" v-for="(item,index) in suggestCity" @click="handleCitySelect(item)" >
+            {{item}}</span>&nbsp;
         </div>
       </div>
       <div class="post-contents">
         <div class="title clearfix">
           <div class="title-left fl">推荐攻略</div>
           <div class="title-right fr">
-            <el-button type="primary" icon="el-icon-edit">写游记</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="$router.push('/post/addpost')">写游记</el-button>
           </div>
         </div>
         <div class="hot-post">
-          <PostLizi v-for="(item,index) in dataList" :item="item" :key="index" />
+          <PostLizi v-for="(item,index) in postList" :item="item" :key="index" />
           <el-pagination
             style="padding:10px 0;"
             @size-change="handleSizeChange"
@@ -75,39 +73,69 @@ export default {
   data() {
     return {
       total: 0, //定义一个总条数
-      pageSize:2,//定义一个每页多少条
-      pageIndex:2,//声明一个当前页
+      pageSize: 2, //定义一个每页多少条
+      pageIndex: 1, //声明一个当前页
       isShow: false,
       cityType: [], //定义一个城市主体类型
       typeSeen: [], //定义一个城市类型景点列表数据
-      postList: [] //获取所有文章列表
+      postList: [], //获取所有文章列表
+      city: "", //定义一个城市
+      suggestCity:['广州','上海','北京']
     };
   },
-  computed:{
-    dataList(){//重新定义一个变量监听分页后数据的变化
-      let arr =this.postList.slice((this.pageIndex-1)*this.pageSize,this.pageIndex*this.pageSize);
-      return arr;
-    }
-  },
+  // computed: {
+  //   dataList() {
+  //     //重新定义一个变量监听分页后数据的变化
+  //     let arr = this.postList.slice(
+  //       (this.pageIndex - 1) * this.pageSize,
+  //       this.pageIndex * this.pageSize
+  //     );
+  //     console.log(this.postList,this.pageIndex,this.pageSize,arr)
+  //     return arr;
+  //   }
+  // },
   mounted() {
     this.$axios({
       url: "/posts/cities"
     }).then(res => {
       this.cityType = res.data.data;
     });
-    this.$axios({
-      url: "/posts"
-    }).then(res => {
-      this.postList = res.data.data;
-      this.total = res.data.total;
-    });
+    this.getPostList();
   },
   methods: {
+    getPostList() {//获取文章列表
+      this.$axios({
+        url: `/posts?_start=${(this.pageIndex - 1) * this.pageSize}&_limit=${
+          this.pageSize
+        }${this.city?"&city="+this.city+"":''}`
+      }).then(res => {
+        this.postList = [...res.data.data];
+        this.total = res.data.total;
+      });
+    },
+    getCity(){//输入框获取对应的城市文章搜索事件
+      this.getPostList();
+      this.$router.push({
+          path: `/post`,
+          query: { city:this.city }
+        });
+    },
+    handleCitySelect(city) {
+      //城市选择请求对应的城市信息列表
+      this.city=city;
+      this.getPostList();
+      this.$router.push({
+          path: `/post`,
+          query: { city }
+        });
+    },
     handleSizeChange(val) {
-      this.pageSize=val;
+      this.pageSize = val;
+      this.getPostList();
     },
     handleCurrentChange(val) {
-      this.pageIndex=val;
+      this.pageIndex = val;
+      this.getPostList();
     },
     handleCityType(type) {
       //展示城市列表类型
@@ -168,7 +196,7 @@ export default {
         padding: 0 20px;
         line-height: 38px;
         border-left: 1px solid #ddd;
-        color: #999;
+
         a:hover {
           text-decoration: underline;
         }
@@ -180,11 +208,20 @@ export default {
           font-style: italic;
           font-size: 20px;
           margin-right: 15px;
+          &:hover {
+            text-decoration: underline;
+          }
         }
         span {
           color: #ffa500;
           margin-right: 15px;
           cursor: pointer;
+        }
+        .desc {
+          color: #999;
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }

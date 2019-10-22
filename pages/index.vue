@@ -1,13 +1,19 @@
 <template>
-  <div class="container">
-    <!-- 轮播图 -->
-    <!-- interval：相隔时间
-    arrow：是否显示左右的箭头-->
-    <el-carousel :interval="5000" arrow="always">
-      <el-carousel-item v-for="(item, index) in banners" :key="index">
-        <div
-          class="banner-image"
-          :style="`
+
+    <div class="container">
+        <!-- 轮播图 -->
+        <!-- interval：相隔时间
+        arrow：是否显示左右的箭头 -->
+        <el-carousel 
+        :interval="5000" 
+        arrow="always">
+<!-- //shandksahdfsjak -->
+
+            <el-carousel-item      
+            v-for="(item, index) in banners" 
+            :key="index">
+                <div class="banner-image" 
+                :style="`
                 background:url(${$axios.defaults.baseURL + item.url}) center center no-repeat;
                 background-size:contain contain;
                 `"
