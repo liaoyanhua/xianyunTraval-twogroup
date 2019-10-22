@@ -29,6 +29,8 @@
           ></el-autocomplete>
         </el-form-item>
       </el-form>
+
+
       <!-- 发布 -->
       <div class="button">
         <el-button
@@ -104,7 +106,8 @@ export default {
       }).then(res => {
         if (res.status === 200) {
           this.$message.success(res.data.message);
-          window.location.reload();
+        //   window.location.reload();
+          this.$router.push('/post');
         //    this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0, `<div>123</div>`);
           this.form = {
             content: "",
