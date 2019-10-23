@@ -164,7 +164,6 @@ export default {
       let time = date.getFullYear() + "-" + month + "-" + date.getDate(); //获取完整的年月日(4位)
       this.form.time = time;
       this.$store.commit("post/storePostContent", this.form); //在vuex里面存值
-      //  this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0,`<p><br></p>`);
       this.$refs.vueEditor.editor.root.innerHTML = ""; 
       this.form={
          content: "",
@@ -176,17 +175,13 @@ export default {
         this.$store.commit("post/deletePostContent", index);
     },
     editorPostContent(index){//注册一个草稿箱内容编辑事件
+     this.$refs.vueEditor.editor.root.innerHTML = ""; 
     let form = this.$store.state.post.postContent[index]
     this.form={...form}
     console.log(this.form);
-     this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0,this.form.content);
+    this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0,this.form.content);
 
     }
-
-    // // 城市下拉选择时触发
-    // handleSelect() {
-
-    // }
   }
 };
 </script>
