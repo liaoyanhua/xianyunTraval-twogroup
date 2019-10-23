@@ -43,7 +43,7 @@
           style="position:relative;"
         >
           <div>
-            <span>
+            <span @click="editorPostContent(index)">
               {{item.title}}
               <i class="el-icon-edit"></i>
             </span>
@@ -94,10 +94,11 @@ export default {
 
         // 上传视频的配置
         uploadVideo: {
-          url: `${this.$axios.defaults.baseURL}+/uploads`,
-          name: "file",
+           url: `${this.$axios.defaults.baseURL}/upload`,
+          name: "files",
+            Authorization: `Bearer ${this.$store.state.user.userInfo.token}`,
           uploadSuccess: (res, insert) => {
-            insert(this.$axios.defaults.baseURL + res.data.url);
+             insert(this.$axios.defaults.baseURL + res.data[0].url);
           }
         }
       }
@@ -163,13 +164,23 @@ export default {
       let time = date.getFullYear() + "-" + month + "-" + date.getDate(); //获取完整的年月日(4位)
       this.form.time = time;
       this.$store.commit("post/storePostContent", this.form); //在vuex里面存值
-       this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0,`<p><br></p>`);
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 100);
+      //  this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0,`<p><br></p>`);
+      this.$refs.vueEditor.editor.root.innerHTML = ""; 
+      this.form={
+         content: "",
+        title: "",
+        city: ""
+      }
     },
     deletePostContent(index){//注册一个草稿箱内容删除事件
         this.$store.commit("post/deletePostContent", index);
+    },
+    editorPostContent(index){//注册一个草稿箱内容编辑事件
+    let form = this.$store.state.post.postContent[index]
+    this.form={...form}
+    console.log(this.form);
+     this.$refs.vueEditor.editor.clipboard.dangerouslyPasteHTML(0,this.form.content);
+
     }
 
     // // 城市下拉选择时触发
