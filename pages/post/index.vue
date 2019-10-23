@@ -31,7 +31,10 @@
     </div>
     <div class="post-right">
       <div class="search">
-        <input type="text" :placeholder="`${city?'':'请输入想去的地方，比如:`广州`'}`" v-model="city" @input="getCity"/>
+        <input type="text" 
+        :placeholder="`${city?'':'请输入想去的地方，比如:`广州`'}`" 
+        v-model="city" 
+        @input="getCity"/>
         <span class="icon el-icon-search"  @click="getCity"></span>
         <div>
           推荐：
