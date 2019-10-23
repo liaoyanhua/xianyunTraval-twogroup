@@ -110,6 +110,7 @@ export default {
   methods: {
     onSubmit() {
       //发布游记事件
+      delete this.form.time;//把时间这一项删除
       this.form.content = this.$refs.vueEditor.editor.root.innerHTML;
       this.$axios({
         url: "/posts",
