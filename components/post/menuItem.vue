@@ -13,7 +13,12 @@
 <script>
 export default {
     name: "menuItem",
-    props: ['data']
+    props: ['data'],
+    mounted() {
+      setTimeout(()=>{
+        console.log(this.data)
+      },300)
+    },
 }
 </script>
 

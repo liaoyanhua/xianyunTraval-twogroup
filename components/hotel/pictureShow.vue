@@ -1,14 +1,16 @@
 <template>
     <div class="pictureShow">
         <div class="mainPicture">
-            <img :src="pictureList[0].src" ref="mainPicture"/>
+            <img :src="$axios.defaults.baseURL + picture.pics[0].url" 
+            ref="mainPicture" 
+            v-if="picture.pics.length>0"/>
         </div>
         <div class="supPicture el-row">
             <div class="el-col el-col-12" 
-            v-for="(item,index) in pictureList" 
+            v-for="(item,index) in picture.pics" 
             :key="index"
             @click="togglePic(index)">
-                    <img :src="item.src" />
+                    <img :src="$axios.defaults.baseURL + item.url" />
             </div>
         </div>
     </div>
@@ -16,24 +18,28 @@
 
 <script>
 export default {
+    props:{
+        picture:{
+            type:Object,
+            default: {}
+        }
+    },
     data(){
         return{
-            pictureList:[
-                {src:"http://157.122.54.189:9093/images/hotel-pics/1.jpeg"},
-                {src:"http://157.122.54.189:9093/images/hotel-pics/2.jpeg"},
-                {src:"http://157.122.54.189:9093/images/hotel-pics/3.jpeg"},
-                {src:"http://157.122.54.189:9093/images/hotel-pics/4.jpeg"},
-                {src:"http://157.122.54.189:9093/images/hotel-pics/5.jpeg"},
-                {src:"http://157.122.54.189:9093/images/hotel-pics/6.jpeg"},
-            ]
+            
         }
     },
+    // mounted(){
+    //     setTimeout(()=>{
+    //        console.log(this.picture.pics[0].url,"wqdedqw")
+    //     },1000)
+    // },
     methods: {
         togglePic(index){
-            // console.log(index)
-            this.$refs.mainPicture.src = this.pictureList[index].src
-        }
+            this.$refs.mainPicture.src = this.$axios.defaults.baseURL + this.picture.pics[index].url
+        },
     },
+   
 };
 </script>
 

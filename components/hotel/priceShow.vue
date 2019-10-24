@@ -1,5 +1,5 @@
 <template>
-    <div class="container" >
+    <div class="container">
         <!-- <el-row class="title">
             <el-col :span="8">价格来源</el-col>
             <el-col :span="8">低价房型</el-col>
@@ -17,38 +17,37 @@
                     <span>￥{{item.pricePerNight}}</span>起>
                 </el-col>
             </nuxt-link>
-        </el-row> -->
-
-        <el-table :data="tableData" style="width: 100% " class="content">
-            <el-table-column prop="priceSource" label="价格来源" width="400"></el-table-column>
-            <el-table-column prop="hotelType" label="低价房型" width="420"></el-table-column>
-            <el-table-column prop="pricePerNight" label="最低价格/每晚" width="180"></el-table-column>
+        </el-row>-->
+        <el-table :data="tableData.products" style="width: 100% " class="content">
+            <el-table-column prop="name" label="价格来源" width="400"></el-table-column>
+            <el-table-column prop="bestType" label="低价房型" width="420"></el-table-column>
+            <el-table-column label="最低房价/每晚" width="180">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px" class="height-light yuan">{{ scope.row.price}}</span>
+                    <i >起</i>
+                    <i class="el-icon-arrow-right height-light"></i>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            tableData: [
-                {
-                    priceSource: "携程",
-                    hotelType: "高级大床房",
-                    pricePerNight: 32
-                },
-                {
-                    priceSource: "艺龙",
-                    hotelType: "高级大床房A",
-                    pricePerNight: 64
-                },
-                {
-                    priceSource: "携程",
-                    hotelType: "高级大床房",
-                    pricePerNight: 32
-                }
-            ]
-        };
+    props: {
+        tableData: {
+            // 声明item的类型
+            type: Object,
+            // 如果用户不传，采取默认值!!!!
+            default: () => {
+                return {};
+            }
+        }
+    },
+    mounted() {
+        setTimeout(() => {
+            // console.log(this.tableData, 213165);
+        }, 1000);
     }
 };
 </script>
@@ -57,6 +56,11 @@ export default {
 .container {
     line-height: 23px;
     margin: 40px 0 !important;
-    
+}
+.height-light{
+    color:#f90;
+}
+.yuan{
+    text-align: left;
 }
 </style>

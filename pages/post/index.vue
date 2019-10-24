@@ -16,7 +16,7 @@
     </div> -->
 
     <!-- 组件所接受的值是数组 -->
-    <MenuItem :data="list"/>
+    <MenuItem :data="list"/>   
 
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
             { name: "童装" }
           ]
         },
-        {
+        { 
           name: "电器", 
           children: [
             {name: "电视"},

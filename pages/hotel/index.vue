@@ -1,177 +1,133 @@
 <template>
-    <div class="container">
-        <!-- 面包屑部分 -->
-        <el-row class="breadcrunbs">
-            <el-breadcrumb separator-class="el-icon-arrow-right ">
-                <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/' }">南京酒店预订</el-breadcrumb-item>
-            </el-breadcrumb>
+    <div class="hotel">
+        <el-row type="flex" class="hotel_content">
+            <!-- 面包屑 -->
+            <el-row class="Hotel_crumbs">
+                <el-breadcrumb separator>
+                    <el-breadcrumb-item style="width:54px">
+                        酒店
+                        <i class="el-icon-arrow-right" style="margin-left:5px"></i>
+                    </el-breadcrumb-item>
+                    <el-breadcrumb-item>南京市酒店预定</el-breadcrumb-item>
+                </el-breadcrumb>
+            </el-row>
+            <!-- 筛选查询酒店 -->
+            <HotelFiltrate @searchHotelList="searchHotelList" />
+            <el-col :span="14" class="Hotel_strategy">
+                <!-- 区域详情 -->
+                <HotelStrategy />
+            </el-col>
+            <!-- 地图 -->
+            <el-col :span="10" class="Hotel_map">
+                <hotelMap />
+            </el-col>
+            <!-- 酒店分类筛选 -->
+            <Hotelclassify @getselectForm="getselectForm"/>
+            <!-- 酒店列表页面 -->
+            <HotelList :data="HotelList"/>
+            <!-- 分页器 -->
         </el-row>
-
-        <el-row :gutter="10">
-            <el-col :span="5" class="destinput">
-                <el-input v-model="input" placeholder="目的地"></el-input>
-            </el-col>
-            <el-col :span="9" class="datainput">
-                <el-date-picker
-                    v-model="value2"
-                    type="daterange"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                ></el-date-picker>
-            </el-col>
-            <div @click="isShow = !isShow">
-                <el-col :span="5" class="numinput">
-                    <el-input
-                        placeholder="人数未定"
-                        suffix-icon="el-input__icon iconfont iconuser"
-                        v-model="input2"
-                    ></el-input>
-                </el-col>
-            </div>
-            <el-col :span="2">
-                <el-button type="primary">查看价格</el-button>
-            </el-col>
-        </el-row>
-
-        <!-- 酒店房间人数选择 -->
-        <div class="selecthotel" v-if="isShow">
-            <div class="selectone">
-                <span>每间</span>
-                <div>
-                    <el-select v-model="value6" placeholder="请选择" class="input">
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        ></el-option>
-                    </el-select>
-                    <el-select v-model="value7" placeholder="请选择" class="input">
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        ></el-option>
-                    </el-select>
-                </div>
-            </div>
-            <div class="btn">
-                <el-button type="primary">
-                    <span>确定</span>
-                </el-button>
-            </div>
-        </div>
-        <!-- 介绍内容 -->
-        <div class="description">
-            <hotelDesc />
-            <div>
-                <!-- 地图 -->
-            </div>
-        </div>
     </div>
 </template>
-
 <script>
-import hotelDesc from "@/components/hotel/hotelDesc";
+//引入插件
+import HotelFiltrate from "@/components/hotel/HotelFiltrate";
+import HotelStrategy from "@/components/hotel/HotelStrategy";
+import hotelMap from "@/components/hotel/hotelMap";
+import Hotelclassify from "@/components/hotel/Hotelclassify";
+import HotelList from "@/components/hotel/HotelList";
 export default {
-    components: {
-        hotelDesc
-    },
     data() {
         return {
-            pickerOptions1: {
-                disabledDate(time) {
-                    return time.getTime() > Date.now();
-                }
-                // shortcuts: [
-                //     {
-                //         text: "今天",
-                //         onClick(picker) {
-                //             picker.$emit("pick", new Date());
-                //         }
-                //     },
-                //     {
-                //         text: "昨天",
-                //         onClick(picker) {
-                //             const date = new Date();
-                //             date.setTime(date.getTime() - 3600 * 1000 * 24);
-                //             picker.$emit("pick", date);
-                //         }
-                //     },
-                //     {
-                //         text: "一周前",
-                //         onClick(picker) {
-                //             const date = new Date();
-                //             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                //             picker.$emit("pick", date);
-                //         }
-                //     }
-                // ]
+            HotelList: [], //默认酒店列表
+            hotel: {
+                id: 1,
+                price_in: 99,
+                scenic: 1,
+                name_contains: "",
+                hotellevel: 1,
+                hoteltype: 1,
+                hotelbrand: 1,
+                hotelasset: 1,
+                person: 2
             },
-            isShow: false,
-            value2: "",
-            options: [
-                {
-                    value: "选项1",
-                    label: "黄金糕"
-                }
-            ],
-            value6: "",
-            value7: ""
+            form: {
+                city: "", // 查询城市
+                enterTime: "", //进店时间
+                leftTime: "", //离店时间
+                number: "", // 住房人数
+                adult: "2", //成人
+                children: "0", //儿童
+                time: []
+            },
+            newForm: {
+                newlevels: [],
+                newassets: [],
+                newbrands: [],
+                newtypes: []
+            }
         };
+    },
+    components: {
+        HotelFiltrate,
+        HotelStrategy,
+        hotelMap,
+        Hotelclassify,
+        HotelList
+    },
+    mounted() {
+        this.getHotelList();
+    },
+    methods: {
+        //获取酒店列表数据
+        getHotelList() {
+            const { id, city, enterTime, leftTime, limit, start } = this.hotel;
+            this.$axios({
+                url: "/hotels",
+                params: {
+                    city,
+                    enterTime,
+                    leftTime,
+                    _limit: limit,
+                    _start: start
+                }
+            }).then(res => {
+                this.HotelList = res.data.data;
+            });
+        },
+        searchHotelList(data) {
+            this.form = data;
+            console.log(this.form, "1315");
+            this.$axios({
+                url: "/hotels",
+                params: {
+                    city: this.form.city,
+                    enterTime: this.form.enterTime,
+                    leftTime: this.form.leftTime
+                }
+            }).then(res => {
+                // console.log(res);
+                const {data} = res.data;
+                this.HotelList = data;
+            });
+        },
+        getselectForm(data){
+            console.log(data,"13219999")
+            this.newForm.push(data)
+            console.log(this.newForm)
+        }
     }
 };
 </script>
-
-<style scoped lang="less">
-.container {
+<style lang="less" scoped>
+.hotel {
     width: 1000px;
     margin: 0 auto;
-    position: relative;
-}
-.breadcrunbs {
-    margin: 20px 0;
-}
-
-.datainput {
-    margin-right: 10px;
-    margin-left: 2px;
-    width: 34.5%;
-}
-.selecthotel {
-    width: 300px;
-    height: 123px;
-    box-sizing: border-box;
-    background: #fff;
-    position: absolute;
-    right: 125px;
-    top: 80px;
-    .selectone {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 28px;
-        line-height: 28px;
-        margin-bottom: 20px;
-        padding-bottom: 30px;
-        border-bottom: 1px solid gray;
+    .hotel_content {
+        flex-wrap: wrap;
     }
-    .input {
-        height: 28px;
-        width: 90px;
-    }
-    .btn {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        height: 28px;
-        line-height: 28px;
-
-        span {
-            font-size: 12px;
-        }
+    .Hotel_crumbs {
+        padding: 20px 0;
     }
 }
 </style>

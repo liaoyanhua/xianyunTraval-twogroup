@@ -3,54 +3,90 @@
         <el-row class="breadcrunbs">
             <el-breadcrumb separator-class="el-icon-arrow-right ">
                 <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/hotel' }">南京酒店预订</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/' }">好来阁商务宾馆</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/hotel' }" >{{`${data.city.name}酒店预订`}}</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/' }">{{data.name}}</el-breadcrumb-item>
             </el-breadcrumb>
+            <!-- {{ data.breadcrumb }} -->
         </el-row>
-
+        <!-- ${$axios.defaults.baseURL + item.url} -->
         <div class="title">
             <h4>
-                好来阁商务宾馆
-                <span><i class="iconfont iconhuangguan"></i></span>
-                <span><i class="iconfont iconhuangguan"></i></span>
-                <span><i class="iconfont iconhuangguan"></i></span>
-                <span><i class="iconfont iconhuangguan"></i></span>
-                <span><i class="iconfont iconhuangguan"></i></span>
+                {{ data.name }}
+                <span>
+                    <i class="iconfont iconhuangguan"></i>
+                </span>
+                <span>
+                    <i class="iconfont iconhuangguan"></i>
+                </span>
+                <span>
+                    <i class="iconfont iconhuangguan"></i>
+                </span>
+                <span>
+                    <i class="iconfont iconhuangguan"></i>
+                </span>
+                <span>
+                    <i class="iconfont iconhuangguan"></i>
+                </span>
             </h4>
-            <span>de yue lou hotel</span>
+            <span>{{ data.alias }}</span>
             <div>
-                <i class="el-icon-location"></i>
-                <span>柘宁东路9号</span>
+                <i class="iconfont iconlocation"></i>
+                <span>{{ data.address}}</span>
             </div>
         </div>
-        
+
         <!-- 图片展示部分 -->
-        <pictureShow/>
-        <priceShow/>
+        <pictureShow :picture="data" />
+        <priceShow :tableData="data" />
         <!-- 地图展示部分 -->
-        <navMap/>
+        <navMap />
 
         <!-- 信息展示 -->
-        <baseDesc/>
+        <baseDesc />
 
         <!-- 用户评论信息 -->
-        <comment/>
+        <comment />
     </div>
 </template>
 
 <script>
-import pictureShow from '@/components/hotel/pictureShow'
-import priceShow from '@/components/hotel/priceShow'
-import navMap from '@/components/hotel/navMap'
-import baseDesc from '@/components/hotel/baseDesc'
-import comment from '@/components/hotel/comment'
+import pictureShow from "@/components/hotel/pictureShow";
+import priceShow from "@/components/hotel/priceShow";
+import navMap from "@/components/hotel/navMap";
+import baseDesc from "@/components/hotel/baseDesc";
+import comment from "@/components/hotel/comment";
 export default {
-    components:{
+    components: {
         pictureShow,
         priceShow,
         navMap,
         baseDesc,
-        comment
+        comment,
+    },
+    data() {
+        return {
+            data: {
+                pics: [],
+                city:[]
+            },
+            // 文章评论页数据
+            post: [],
+            // 输入框的内容
+            textarea: "",
+        };
+    },
+    mounted() {
+        this.$axios({
+            url: "/hotels?id=5"
+        }).then(res => {
+            const { data } = res.data;
+            this.data = data[0];
+            this.data.products.map(v => {
+                v.price = "￥" + v.price;
+                return v;
+            });
+            console.log(res)
+        });
     }
 };
 </script>
@@ -59,24 +95,28 @@ export default {
 .container {
     width: 1000px;
     margin: 0 auto;
-    .breadcrunbs{
+    .breadcrunbs {
         padding: 20px 0;
     }
     .title {
         margin-bottom: 20px;
         color: #666;
         font-size: 14px;
-        h4{
+        h4 {
             font-weight: 400;
             color: #333;
             font-size: x-large;
         }
-        .iconfont{
+        .iconfont {
             font-size: 16px;
             font-style: normal;
         }
         .iconhuangguan {
             color: #f90;
+        }
+        .el-icon-location {
+            font-size: 16px;
+            color: #666;
         }
     }
 }
