@@ -1,7 +1,7 @@
 <template>
   <div class="post-detail">
     <div class="three-pic"  v-if="item.images.length>=3">
-      <a :href="`/post/detail?id=${item.city.id}`">
+      <a :href="`/post/detail?id=${item.id}`">
         <div class="title">{{item.title}}</div>
         <p>{{item.summary}}</p>
         <div class="imgs clearfix">
@@ -25,11 +25,11 @@
     </div>
 
     <div class="one-pic clearfix" v-if="item.images.length<3">
-      <a href="#" class="picture fl">
+      <a :href="`/post/detail?id=${item.id}`" class="picture fl">
         <img :src="item.images[0]" alt />
       </a>
       <div class="content fr">
-        <a href="#">
+        <a :href="`/post/detail?id=${item.id}`">
           <div class="title">{{item.title}}</div>
           <p>{{item.summary}}</p>
         </a>
