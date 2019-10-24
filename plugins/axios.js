@@ -16,6 +16,8 @@ export default (context) => {
 
         // if(statusCode === 403 || statusCode === 401){
         if( [401, 403].indexOf(statusCode) > -1 ){
+            // 重定向前弹出提示
+            Message.warning(message)
             // 路由重定向的方法
             context.redirect("/user/login");
         }
