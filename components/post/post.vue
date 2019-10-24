@@ -76,7 +76,7 @@ export default {
       this.id=id
       // 获取文章详情
       this.$axios({
-        url: "/posts/" + id
+        url: "/posts/"+id
       }).then(res => {
         this.detail = res.data;
         this.detail.created_at=moment(this.detail.created_at).format("YYYY-MM-DD h:mm");
