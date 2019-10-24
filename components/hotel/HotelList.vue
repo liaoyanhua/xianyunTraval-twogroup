@@ -85,16 +85,8 @@ export default {
             default: []
         }
     },
-<<<<<<< HEAD
-    // mounted() {
-    //   setTimeout(() => {
-    //     console.log(this.data,"list 组件")
-    //   }, 2000);
-    // },
-=======
 
     methods: {}
->>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
 };
 </script>
 <style lang="less" scoped>

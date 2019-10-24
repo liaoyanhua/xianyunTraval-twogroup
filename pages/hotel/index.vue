@@ -83,11 +83,7 @@ export default {
         getHotelList() {
             const { id, city, enterTime, leftTime, limit, start } = this.hotel;
             this.$axios({
-<<<<<<< HEAD
-                url: "/hotels",
-=======
                 url: `/hotels?_start=${(this.pageIndex - 1) * this.pageSize}`,
->>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
                 params: {
                     city,
                     enterTime,
@@ -97,30 +93,6 @@ export default {
                 }
             }).then(res => {
                 this.HotelList = res.data.data;
-<<<<<<< HEAD
-            });
-        },
-        searchHotelList(data) {
-            this.form = data;
-            console.log(this.form, "1315");
-            this.$axios({
-                url: "/hotels",
-                params: {
-                    city: this.form.city,
-                    enterTime: this.form.enterTime,
-                    leftTime: this.form.leftTime
-                }
-            }).then(res => {
-                // console.log(res);
-                const {data} = res.data;
-                this.HotelList = data;
-            });
-        },
-        getselectForm(data){
-            console.log(data,"13219999")
-            this.newForm.push(data)
-            console.log(this.newForm)
-=======
                 this.total = res.data.total;
             });
         },
@@ -128,7 +100,6 @@ export default {
         handleCurrentChange(val) {
             this.pageIndex = val;
             this.getHotelList();
->>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
         }
     }
 };

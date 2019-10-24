@@ -75,33 +75,6 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      list: [
-        { 
-          name: "服装", 
-          children: [
-            { name: "男装", children: [
-              { name:"正装" },
-              { name:"休闲装" },
-              { name:"运动装" },
-            ]},
-            { name: "女装", children: [
-              { name:"正装" },
-              { name:"休闲装" },
-              { name:"运动装" },
-              { name:"xxx" }
-            ]},
-            { name: "童装" }
-          ]
-        },
-        { 
-          name: "电器", 
-          children: [
-            {name: "电视"},
-            {name: "空调"},
-            {name: "冰箱"}
-          ]
-=======
       total: 0, //定义一个总条数
       pageSize: 2, //定义一个每页多少条
       pageIndex: 1, //声明一个当前页
@@ -201,7 +174,6 @@ export default {
         border-top: none;
         &:nth-of-type(1) {
           border-top: 1px solid #ddd;
->>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
         }
         .icon {
           float: right;
