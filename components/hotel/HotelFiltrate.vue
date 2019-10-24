@@ -5,6 +5,7 @@
             <el-form :model="form">
                 <!-- 选择城市 -->
                 <el-form-item class="hotel_inquire">
+<<<<<<< HEAD
                     <el-autocomplete
                         class="inline-input"
                         v-model="state1"
@@ -12,11 +13,18 @@
                         placeholder="请输入内容"
                         @select="handleSelect"
                     ></el-autocomplete>
+=======
+                    <el-input v-model="form.hotelCity"></el-input>
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
                 </el-form-item>
                 <!-- 入住时间 -->
                 <el-form-item class="hotel_Date">
                     <el-date-picker
+<<<<<<< HEAD
                         v-model="form.time"
+=======
+                        v-model="form.hoteldate"
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
                         type="daterange"
                         range-separator="-"
                         start-placeholder="开始日期"
@@ -29,7 +37,12 @@
                         placeholder="人数未定"
                         suffix-icon="el-icon-s-custom"
                         v-model="form.number"
+<<<<<<< HEAD
                         @focus="isShow = true"
+=======
+                        @focus="isShow = !isShow"
+                        @blur="isShow = !isShow"
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
                         readonly
                     ></el-input>
                 </el-form-item>
@@ -70,7 +83,11 @@
                     </el-row>
                 </el-row>
                 <!-- 查看酒店按钮 -->
+<<<<<<< HEAD
                 <el-button type="primary" @click="searchHotel">查看价格</el-button>
+=======
+                <el-button type="primary" round>查看价格</el-button>
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
             </el-form>
         </el-row>
     </div>
@@ -90,6 +107,7 @@ export default {
                 { adult: 6, children: 6 }
             ],
             form: {
+<<<<<<< HEAD
                 city : "", // 查询城市
                 enterTime: "", //进店时间
                 leftTime: "", //离店时间
@@ -102,15 +120,28 @@ export default {
             state1: "",
             hotelList:[]
 
+=======
+                hotelCity: "南京", // 查询城市
+                hoteldate: "", //住房时间
+                number: "", // 住房人数
+                adult: "2", //成人
+                children: "0" //儿童
+            },
+            isShow: false //选择人数的菜单是否显示
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
         };
     },
     mounted() {},
     methods: {
         // 住房选择时触发
+<<<<<<< HEAD
         handleSelect(item) {
           this.form.city = item.id;
           // console.log(item,"312")
         },
+=======
+        handleSelect() {},
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
         // 下拉菜单返回的数据
         // 显示选择框
         chooseHousing() {
@@ -125,6 +156,7 @@ export default {
                 this.form.number = "";
             }
             this.isShow = false;
+<<<<<<< HEAD
         },
         searchHotel() {
             this.form.enterTime = moment(this.form.time[0]).format(
@@ -161,6 +193,8 @@ export default {
             // 调用 callback 返回建议列表的数据
                 cb(arr);
             });
+=======
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
         }
     }
 };

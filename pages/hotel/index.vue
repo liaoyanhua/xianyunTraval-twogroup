@@ -12,7 +12,7 @@
                 </el-breadcrumb>
             </el-row>
             <!-- 筛选查询酒店 -->
-            <HotelFiltrate @searchHotelList="searchHotelList" />
+            <HotelFiltrate />
             <el-col :span="14" class="Hotel_strategy">
                 <!-- 区域详情 -->
                 <HotelStrategy />
@@ -22,10 +22,17 @@
                 <hotelMap />
             </el-col>
             <!-- 酒店分类筛选 -->
-            <Hotelclassify @getselectForm="getselectForm"/>
+            <Hotelclassify />
             <!-- 酒店列表页面 -->
-            <HotelList :data="HotelList"/>
+            <HotelList :data="HotelList" />
             <!-- 分页器 -->
+            <el-pagination
+                @current-change="handleCurrentChange"
+                :current-page.sync="pageIndex"
+                :page-size="100"
+                layout="total, prev, pager, next"
+                :total="total"
+            ></el-pagination>
         </el-row>
     </div>
 </template>
@@ -39,7 +46,7 @@ import HotelList from "@/components/hotel/HotelList";
 export default {
     data() {
         return {
-            HotelList: [], //默认酒店列表
+            HotelList: [],
             hotel: {
                 id: 1,
                 price_in: 99,
@@ -51,21 +58,14 @@ export default {
                 hotelasset: 1,
                 person: 2
             },
-            form: {
-                city: "", // 查询城市
-                enterTime: "", //进店时间
-                leftTime: "", //离店时间
-                number: "", // 住房人数
-                adult: "2", //成人
-                children: "0", //儿童
-                time: []
-            },
-            newForm: {
-                newlevels: [],
-                newassets: [],
-                newbrands: [],
-                newtypes: []
-            }
+            // 当前页数
+            pageIndex: 1,
+
+            // 每页条数
+            pageSize: 10,
+
+            // 总条数
+            total: 0
         };
     },
     components: {
@@ -83,7 +83,11 @@ export default {
         getHotelList() {
             const { id, city, enterTime, leftTime, limit, start } = this.hotel;
             this.$axios({
+<<<<<<< HEAD
                 url: "/hotels",
+=======
+                url: `/hotels?_start=${(this.pageIndex - 1) * this.pageSize}`,
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
                 params: {
                     city,
                     enterTime,
@@ -93,6 +97,7 @@ export default {
                 }
             }).then(res => {
                 this.HotelList = res.data.data;
+<<<<<<< HEAD
             });
         },
         searchHotelList(data) {
@@ -115,6 +120,15 @@ export default {
             console.log(data,"13219999")
             this.newForm.push(data)
             console.log(this.newForm)
+=======
+                this.total = res.data.total;
+            });
+        },
+        // 页数切换时触发，val是当前页数
+        handleCurrentChange(val) {
+            this.pageIndex = val;
+            this.getHotelList();
+>>>>>>> b44b3367ac8ab91adb0dc98541d43a2767a91a01
         }
     }
 };
