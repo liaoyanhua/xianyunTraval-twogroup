@@ -5,7 +5,7 @@
             v-for="(item,index) in data"
             :key="index"
         >
-            <el-row type="flex" justify="space-between" class="List_content">
+            <el-row type="flex" @click="$router.push({path:'/hotel/hotelDetail',query:{id:item.id}})" justify="space-between" class="List_content">
                 <el-col :span="8" style="padding-left: 10px; padding-right: 10px;">
                     <img
                         data-v-0a769ebc
@@ -17,7 +17,7 @@
                 </el-col>
                 <el-col :span="10" style="padding:0 15px;">
                     <h4>
-                        <nuxt-link to="#">{{item.name}}</nuxt-link>
+                        <nuxt-link  :to="`/hotel/hotelDetail?id=${item.id}`">{{item.name}}</nuxt-link>
                     </h4>
                     <el-col style="padding:5px 0;">
                         <span>{{item.alias}}</span>
