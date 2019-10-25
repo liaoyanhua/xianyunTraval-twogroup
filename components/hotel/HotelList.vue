@@ -1,7 +1,7 @@
 <template>
     <div class="HotelList">
         <nuxt-link
-            :to="`/hotels/hotelDetali?id=${item.id}`"
+            :to="`/hotel/hotelDetail?id=${item.id}`"
             v-for="(item,index) in data"
             :key="index"
         >
