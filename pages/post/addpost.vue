@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       asideData: [],
-      num:0,
+      num:4,
       form: {
         content: "",
         title: "",
@@ -104,9 +104,6 @@ export default {
         }
       }
     };
-  },
-  mounted(){
- this.num=this.$store.state.post.postContent.length;
   },
   components: {
     VueEditor
