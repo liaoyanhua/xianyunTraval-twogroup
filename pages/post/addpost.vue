@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       asideData: [],
-      num:4,
+      num:0,  
       form: {
         content: "",
         title: "",
@@ -108,11 +108,22 @@ export default {
   components: {
     VueEditor
   },
-  watch:{
-    num(){
-      this.num=this.$store.state.post.postContent.length;
-    }
+  // computed:{
+  //   num(){
+  //     let num=JSON.parse(localStorage.getItem('vuex')).post.postContent.length;
+  //     return num; 
+  //   }
+  // },
+  mounted(){
+   
+    this.num= JSON.parse(localStorage.getItem('vuex')).post.postContent.length;
   },
+  // watch:{
+  //   num(){
+  //     this.num=this.$store.state.post.postContent.length;
+  //     console.log(this.$store.state.post.postContent.length)
+  //   }
+  // },
   methods: {
     onSubmit() {
       //发布游记事件
