@@ -34,7 +34,7 @@
       <!-- 草稿箱 -->
     </div>
     <div class="aside">
-      <h4>草稿箱（1）</h4>
+      <h4>草稿箱（{{num}}）</h4>
       <div class="content">
         <div 
           class="item1"
@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       asideData: [],
+      num:0,
       form: {
         content: "",
         title: "",
@@ -104,8 +105,16 @@ export default {
       }
     };
   },
+  mounted(){
+ this.num=this.$store.state.post.postContent.length;
+  },
   components: {
     VueEditor
+  },
+  watch:{
+    num(){
+      this.num=this.$store.state.post.postContent.length;
+    }
   },
   methods: {
     onSubmit() {
@@ -156,6 +165,7 @@ export default {
     //保存到草稿箱事件
     storePost() {
       this.form.content = this.$refs.vueEditor.editor.root.innerHTML; //拿到富文本框中的内容
+      this.num=this.$store.state.post.postContent.length;
       //获取当前时间
       var date = new Date();
       let month =
@@ -174,6 +184,7 @@ export default {
     },
     deletePostContent(index){//注册一个草稿箱内容删除事件
         this.$store.commit("post/deletePostContent", index);
+        this.num=this.$store.state.post.postContent.length;
     },
     editorPostContent(index){//注册一个草稿箱内容编辑事件
      this.$refs.vueEditor.editor.root.innerHTML = ""; 
