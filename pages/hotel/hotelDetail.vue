@@ -77,7 +77,7 @@ export default {
     },
     mounted() {
         this.$axios({
-            url: "/hotels?id=5"
+            url: "/hotels?id="+this.$route.query.id
         }).then(res => {
             const { data } = res.data;
             this.data = data[0];

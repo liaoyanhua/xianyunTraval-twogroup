@@ -3,12 +3,12 @@
     <div class="comment-input">
       <h4>评论</h4>
       <el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
-  closable
-  :disable-transitions="true"
-  @close="handleClose(tag)">
- 回复{{followNickname}}</el-tag>
+        :key="tag"
+        v-for="tag in dynamicTags"
+        closable
+        :disable-transitions="false"
+        @close="handleClose(tag)"
+      >回复{{followNickname}}</el-tag>
       <!-- 输入框 -->
       <el-input
         type="textarea"
@@ -79,17 +79,13 @@ export default {
       followId: "", //被回复的评论id
       pics: [], //图片路径
       followNickname: "", //被回复的用户名
-       dynamicTags: ['标签一'],
+      dynamicTags: []
     };
   },
   methods: {
     // 删除图片
     handleRemove(file, fileList) {
       console.log(file, fileList);
-      // let id=file.response[0].id;
-      // this.pics=this.pics.filter(v=>{
-      //   return this.pics!==id
-      // })
       this.pics = fileList;
       console.log(this.pics);
     },
@@ -109,15 +105,15 @@ export default {
       this.followId = id;
       this.followNickname = nickname;
       // 回复别人时给标签增加一项,但是又不多于一项
-      this.dynamicTags.splice(0,1,'');
+      this.dynamicTags.splice(0, 1, "");
       // 自动获取输入框焦点
-      this.$refs.input.focus()
+      this.$refs.input.focus();
       console.log(nickname);
       console.log(id);
     },
     // 获取要回复的父级id
     getParent(id, nickname) {
-      this.handleClick(id,nickname)
+      this.handleClick(id, nickname);
       console.log(id, nickname);
     },
     // 发送评论
@@ -143,14 +139,15 @@ export default {
         this.comment = ""; //发送评论成功后清除输入框
         this.followId = ""; //清除被回复的id
         this.$refs.imgWall.clearFiles(); //清除照片墙
-        this.handleClose();//发送成功关闭标签
+        this.pics = []; //清除图片数组
+        this.handleClose(); //发送成功关闭标签
       });
-    }, 
+    },
     // 关闭回复标签
     handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-        this.followId = ""; //清除被回复的id
-      },
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      this.followId = ""; //清除被回复的id
+    }
   },
   components: {
     CommentFloor

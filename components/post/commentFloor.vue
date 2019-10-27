@@ -6,7 +6,7 @@
       <div class="comment-info">
         <div class="left">
           <span>{{parent.account.nickname}}</span>
-          <i>发表于 {{parent.created_at}}</i>
+          <i>发表于 {{parent.created_at|time}}</i>
         </div>
         <em>{{parent.level}}</em>
       </div>
@@ -35,9 +35,13 @@ export default {
 
       this.$emit("getParent", id, nickname);
     }
-    // handleClick1(){
-    //   this.$emit('handleClick')
-    // }
+  },
+  // 过滤器实现时间转换
+  filters: {
+    time: function(value) {
+      if (!value) return "";
+      return moment(value).format("YYYY-MM-DD h:mm");
+    }
   }
 };
 </script>

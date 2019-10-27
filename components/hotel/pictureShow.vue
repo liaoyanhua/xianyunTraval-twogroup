@@ -1,7 +1,7 @@
 <template>
     <div class="pictureShow">
         <div class="mainPicture">
-            <img :src="$axios.defaults.baseURL + picture.pics[0].url" 
+            <img :src="picture.photos" 
             ref="mainPicture" 
             v-if="picture.pics.length>0"/>
         </div>
@@ -29,11 +29,11 @@ export default {
             
         }
     },
-    // mounted(){
-    //     setTimeout(()=>{
-    //        console.log(this.picture.pics[0].url,"wqdedqw")
-    //     },1000)
-    // },
+    mounted(){
+        setTimeout(()=>{
+           console.log(this.picture.photos,"wqdedqw")
+        },1000)
+    },
     methods: {
         togglePic(index){
             this.$refs.mainPicture.src = this.$axios.defaults.baseURL + this.picture.pics[index].url

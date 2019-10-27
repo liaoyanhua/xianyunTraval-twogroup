@@ -88,33 +88,27 @@ export default {
         }
     },
     methods: {
-        searchHotelList(str) {
-            // console.log(str)
-            this.str = str;
-            this.lists(str)
-        },
-        lists(data){
-            // console.log(`/hotels${data}`)
+        //获取酒店列表数据
+        getHotelList() {
+            const { id, city, enterTime, leftTime, limit, start } = this.hotel;
             this.$axios({
-                url: "/hotels" + data
+                url: `/hotels?_start=${(this.pageIndex - 1) * this.pageSize}`,
+                params: {
+                    city,
+                    enterTime,
+                    leftTime,
+                    _limit: limit,
+                    _start: start
+                }
             }).then(res => {
-                console.log(res.data.data);
-                const { data } = res.data;
-                this.HotelList = data;
+                this.HotelList = res.data.data;
+                this.total = res.data.total;
             });
         },
-
-        // getselectForm(data) {
-        //     console.log(data, "13219999");
-        //     this.newForm.push(data);
-        //     console.log(this.newForm);
-        // },
-
-        filterList(str) {
-            // console.log(this.str+str1,"hotelList")
-            this.str = str;
-            // console.log(this.str)
-            // console.log(str,"adasdadada")
+        // 页数切换时触发，val是当前页数
+        handleCurrentChange(val) {
+            this.pageIndex = val;
+            this.getHotelList();
         }
     }
 };
