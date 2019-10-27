@@ -3,14 +3,14 @@
         <el-row type="flex" justify="space-between">
             <el-col :span="8" class="hotel_price">
                 <el-row>
+                    <!-- <div class="block">
+                        <el-slider v-model="form.price" show-input></el-slider>
+                    </div> -->
                     <el-col :span="12">价格</el-col>
-                    <el-col :span="12" class="price_right">0-{{price*40}}</el-col>
+                    <el-col :span="12" class="price_right">0-{{form.price}}</el-col>
                 </el-row>
                 <el-row>
-                    <el-slider
-                        v-model="price"
-                        :format-tooltip="formatTooltip"
-                    ></el-slider>
+                    <el-slider v-model="form.price" :max="4000"></el-slider>
                 </el-row>
             </el-col>
             <el-col :span="6" class="HotelSeT">
@@ -22,13 +22,12 @@
                         multiple
                         class="select"
                         border="false"
-                        @change="handleLevels"
                     >
                         <el-option
                             v-for="(item,index) in Hotel.levels"
                             :key="index"
                             :label="item.name"
-                            :value="item.level"
+                            :value="item.id"
                         ></el-option>
                     </el-select>
                 </el-col>
@@ -42,13 +41,12 @@
                         multiple
                         class="select"
                         border="false"
-                        @change="handleTypes"
                     >
                         <el-option
                             v-for="(item,index) in Hotel.types"
                             :key="index"
                             :label="item.name"
-                            :value="item.name"
+                            :value="item.id"
                         ></el-option>
                     </el-select>
                 </el-col>
@@ -62,13 +60,12 @@
                         multiple
                         class="select"
                         border="false"
-                        @change="handleAssets"
                     >
                         <el-option
                             v-for="(item,index) in Hotel.assets"
                             :key="index"
                             :label="item.name"
-                            :value="item.name"
+                            :value="item.id"
                         ></el-option>
                     </el-select>
                 </el-col>
@@ -82,13 +79,12 @@
                         multiple
                         class="select"
                         border="false"
-                        @change="handleBrands"
                     >
                         <el-option
                             v-for="(item,index) in Hotel.brands"
                             :key="index"
                             :label="item.name"
-                            :value="item.name"
+                            :value="item.id"
                         ></el-option>
                     </el-select>
                 </el-col>
@@ -100,62 +96,65 @@
 export default {
     data() {
         return {
-            price: 4000,
+            // 绑定
             form: {
-                levels: "不限",
-                assets: "不限",
-                brands: "不限",
-                types: "不限"
-            },
-            Hotel: {
+                price: 4000,
                 levels: [],
                 assets: [],
                 brands: [],
                 types: []
             },
-            selectForm: {
-                selectlevels: [],
-                selectassets: [],
-                selectbrands: [],
-                selecttypes: []
-            },
+            // 渲染
+            Hotel: {
+                levels: [],
+                assets: [],
+                brands: [],
+                types: []
+            }
         };
+    },
+
+    watch: {
+        form: {
+            deep: true,
+            handler() {
+                // console.log(this.$store.state.hotel.city)
+                const city = this.$store.state.hotel.city;
+                console.log(this.$store.state,"dasdasdasdasd")
+                const enterTime = this.$store.state.hotel.enterTime;
+                const leftTime = this.$store.state.hotel.leftTime;
+                if(!city) return ;
+                // var str = `&city=${city}$price_lt=${this.form.price}&`;
+                var str = `?&city=${city}&price_lt=${this.form.price}&enterTime=${enterTime}&leftTime=${leftTime}&`;
+                // Hotel
+                this.form.levels.forEach(v => {
+                    str += `hotellevel_in=${v}&`
+                    // console.log(v)
+                }); 
+
+                this.form.assets.forEach(v => {
+                    str += `hotelasset_in=${v}&`
+                    // console.log(v)
+                }); 
+
+                this.form.brands.forEach(v => {
+                    str += `hotelbrand_in=${v}&`
+                    // console.log(v)
+                }); 
+
+                this.form.types.forEach(v => {
+                    str += `hoteltype_in=${v}&`
+                    // console.log(v)
+                }); 
+
+                var str1 = str.slice(0,-1)
+                this.$emit("filterList",str1)
+            }
+        }
     },
     methods: {
         formatTooltip(val) {
             return val * 40;
-        },
-        handleLevels(value) {
-            const arr = value.map(v => {
-                return v;
-            });
-            this.selectForm.selectlevels = arr;
-            // console.log(this.selectForm.selectlevels);
-            this.$emit("getselectForm",this.selectForm.selectlevels)
-        },
-        handleTypes(value) {
-            const arr = value.map(v => {
-                return v;
-            });
-            this.selectForm.selecttypes = arr;
-            // console.log(this.selectForm.selectassets);
-            this.$emit("getselectForm",this.selectForm.selecttypes)
-        },
-        handleAssets(value) {
-            const arr = value.map(v => {
-                return v;
-            });
-            this.selectForm.selectassets = arr;
-            // console.log(this.selectForm.selectbrands);
-            this.$emit("getselectForm",this.selectForm.selectassets)
-        },
-        handleBrands(value) {
-            const arr = value.map(v => {
-                return v;
-            });
-            this.selectForm.selectbrands = arr;
-            // console.log(this.selectForm.selecttypes);
-            this.$emit("getselectForm",this.selectForm.selectbrands)
         }
     },
     mounted() {
@@ -164,7 +163,7 @@ export default {
         }).then(res => {
             const { data } = res.data;
             this.Hotel = data;
-            console.log(data, "1024");
+            // console.log(data, "1024");
         });
     }
 };
