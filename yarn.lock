@@ -1230,9 +1230,9 @@ acorn-walk@^6.1.1:
   integrity sha1-Ejy487hMIXHx9/slJhWxx4prGow=
 
 acorn@^6.0.7, acorn@^6.2.1:
-  version "6.3.0"
-  resolved "https://registry.npm.taobao.org/acorn/download/acorn-6.3.0.tgz#0087509119ffa4fc0a0041d1e93a417e68cb856e"
-  integrity sha1-AIdQkRn/pPwKAEHR6TpBfmjLhW4=
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.1.tgz#531e58ba3f51b9dacb9a6646ca4debf5b14ca474"
+  integrity sha512-ZVA9k326Nwrj3Cj9jlh3wGFutC2ZornPNARZwsNYqQYgN0EsV2d53w5RN/co65Ohn4sUAUtb1rSUAOD6XN9idA==
 
 aggregate-error@^3.0.0:
   version "3.0.1"
@@ -2853,15 +2853,9 @@ ejs@^2.6.1:
   integrity sha1-W1q1f3GLedSsqSVEV6/s02+oAig=
 
 electron-to-chromium@^1.3.284:
-<<<<<<< HEAD
-  version "1.3.286"
-  resolved "https://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.286.tgz#eeadbb9c2bc6f85fed9db423e091648c49e8bbcc"
-  integrity sha1-7q27nCvG+F/tnbQj4JFkjEnou8w=
-=======
   version "1.3.287"
   resolved "https://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.287.tgz#4aabb331e4eaa45c6af2730d32f57a0ae6c42b4c"
   integrity sha1-SquzMeTqpFxq8nMNMvV6CubEK0w=
->>>>>>> 4798ac4185b7fa7cb76f4e234b69808906d5e60b
 
 element-ui@^2.4.11:
   version "2.12.0"
@@ -4693,11 +4687,7 @@ minipass-pipeline@^1.2.2:
 
 minipass@^2.6.0, minipass@^2.8.6, minipass@^2.9.0:
   version "2.9.0"
-<<<<<<< HEAD
-  resolved "https://registry.npm.taobao.org/minipass/download/minipass-2.9.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fminipass%2Fdownload%2Fminipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6"
-=======
   resolved "https://registry.npm.taobao.org/minipass/download/minipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6"
->>>>>>> 4798ac4185b7fa7cb76f4e234b69808906d5e60b
   integrity sha1-5xN2Ln0+Mv7YAxFc+T4EvKn8yaY=
   dependencies:
     safe-buffer "^5.1.2"
@@ -4705,11 +4695,7 @@ minipass@^2.6.0, minipass@^2.8.6, minipass@^2.9.0:
 
 minipass@^3.0.0:
   version "3.0.1"
-<<<<<<< HEAD
-  resolved "https://registry.npm.taobao.org/minipass/download/minipass-3.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fminipass%2Fdownload%2Fminipass-3.0.1.tgz#b4fec73bd61e8a40f0b374ddd04260ade2c8ec20"
-=======
   resolved "https://registry.npm.taobao.org/minipass/download/minipass-3.0.1.tgz#b4fec73bd61e8a40f0b374ddd04260ade2c8ec20"
->>>>>>> 4798ac4185b7fa7cb76f4e234b69808906d5e60b
   integrity sha1-tP7HO9YeikDws3Td0EJgreLI7CA=
   dependencies:
     yallist "^4.0.0"
@@ -6341,15 +6327,9 @@ regexpu-core@^4.6.0:
     unicode-match-property-value-ecmascript "^1.1.0"
 
 regjsgen@^0.5.0:
-<<<<<<< HEAD
-  version "0.5.0"
-  resolved "https://registry.npm.taobao.org/regjsgen/download/regjsgen-0.5.0.tgz#a7634dc08f89209c2049adda3525711fb97265dd"
-  integrity sha1-p2NNwI+JIJwgSa3aNSVxH7lyZd0=
-=======
   version "0.5.1"
   resolved "https://registry.npm.taobao.org/regjsgen/download/regjsgen-0.5.1.tgz#48f0bf1a5ea205196929c0d9798b42d1ed98443c"
   integrity sha1-SPC/Gl6iBRlpKcDZeYtC0e2YRDw=
->>>>>>> 4798ac4185b7fa7cb76f4e234b69808906d5e60b
 
 regjsparser@^0.6.0:
   version "0.6.0"
